@@ -6,7 +6,6 @@ export const PROJECTS: ProjectItem[] = [
     title: "Byte Bubbble",
     description:
       "Developed a real-time chat application using React and Express, supporting both 1-on-1 and group conversations. The app includes media and file sharing, along with integrated voice messaging for seamless communication.",
-    // "A Real-time chat application with React, powered by Express, includes features like 1-on-1 and group messaging and media, file sharing and also voice messaging",
     "Key Features": [
       "Real-time messaging with typing indicators and read receipts",
       "Seamless sharing of files, images, and voice messages",
@@ -35,7 +34,6 @@ export const PROJECTS: ProjectItem[] = [
     title: "WearClothings",
     description:
       "Built a full-stack e-commerce clothing application with product browsing and purchasing functionality. Includes product listing, an admin dashboard, and features for managing users and products.",
-    // "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae, at nobis! Tempora dicta corporis repudiandae sed provident iusto itaque aliquid",
     "Key Features": [
       "Secure role-based authentication with Google OAuth, Express sessions, and Redis",
       "Comprehensive admin dashboard for seamless product and user management",

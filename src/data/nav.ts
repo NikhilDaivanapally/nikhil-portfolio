@@ -4,7 +4,7 @@ export const MAIN_NAV: NavItem[] = [
   {
     id: "about",
     title: "About",
-    href: "#",
+    href: "/",
   },
   {
     id: "skills",
@@ -13,7 +13,6 @@ export const MAIN_NAV: NavItem[] = [
   },
   {
     id: "projects",
-
     title: "Projects",
     href: "#projects",
   },

@@ -2,6 +2,7 @@ import { GraduationCap } from "lucide-react";
 import React from "react";
 import { Separator } from "./ui/separator";
 import { EDUCATION_ITEM } from "@/types/education";
+import { cn } from "@/lib/utils";
 
 const EducationCard = ({
   education,
@@ -11,7 +12,10 @@ const EducationCard = ({
   isLastEducation: boolean;
 }) => {
   return (
-    <div className={"relative pl-6 pb-10"}>
+    <article
+      className={cn("relative pl-5 sm:pl-6", !isLastEducation && "pb-10")}
+      aria-labelledby={`education-${education.institute}-title`}
+    >
       {/* ICON */}
       <div
         className="flex absolute top-0 left-0 z-10 -translate-x-1/2 size-6 shrink-0 items-center justify-center rounded-lg bg-muted dark:inset-shadow-[1px_1px_1px,0px_0px_2px] dark:inset-shadow-white/15"
@@ -27,7 +31,9 @@ const EducationCard = ({
 
       <div className="space-y-1">
         {/* INSTITUTE */}
-        <h3>{education.institute}</h3>
+        <h3 id={`education-${education.institute}-title`}>
+          {education.institute}
+        </h3>
         {/* COURSE & BRANCH */}
         <div className="space-x-2.5 text-sm text-muted-foreground">
           <span>{education.course}</span>
@@ -44,7 +50,7 @@ const EducationCard = ({
           <span>CGPA: {education.cgpa}</span>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

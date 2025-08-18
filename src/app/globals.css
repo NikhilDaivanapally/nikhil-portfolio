@@ -116,7 +116,6 @@
 
 html {
   @apply scroll-smooth;
-  scroll-padding-top: 100px;
 }
 
 @layer base {

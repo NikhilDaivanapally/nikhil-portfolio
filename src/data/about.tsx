@@ -1,5 +1,13 @@
 import { ABOUT_ITEM, SOCIAL_ITEM } from "@/types/about";
-import { CodeXml, Download, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import {
+  CodeXml,
+  Download,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
 
 export const ABOUT_INFO: ABOUT_ITEM[] = [
   {
@@ -42,9 +50,9 @@ export const SOCIALS: SOCIAL_ITEM[] = [
   {
     id: 2,
     title: "Github",
-    icon: <Download aria-hidden="true" className="size-4" />,
+    icon: <Github aria-hidden="true" className="size-4" />,
     variant: "outline",
     size: "icon",
-    href: "https://www.linkedin.com/in/nikhil-daivanapally",
+    href: "https://github.com/NikhilDaivanapally",
   },
 ];

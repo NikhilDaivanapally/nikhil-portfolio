@@ -1,13 +1,20 @@
 "use client";
 
 import { ProjectItem } from "@/types/project";
-import { CodeXml, ExternalLink, Github, Link } from "lucide-react";
+import {
+  CodeXml,
+  ExternalLink,
+  Github,
+  Link,
+  Image as ImageIcon,
+} from "lucide-react";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import Image from "next/image";
 import { ReactNode, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { cn } from "@/lib/utils";
 
 const LinksIcon: Record<string, ReactNode> = {
   Live: <Link className="w-4" />,
@@ -26,9 +33,11 @@ const ProjectCard = ({
   const cardRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    if (typeof window === "undefined" || !cardRef.current) return; // safeguard
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        ".projectCard",
+        cardRef.current, // target the ref directly
         { opacity: 0, y: 10 },
         {
           opacity: 1,
@@ -41,20 +50,26 @@ const ProjectCard = ({
             end: "bottom 40%",
             toggleActions: "play none none reverse",
             id: `Project-${project.title}`, // unique marker
-            once: true,
+            // scrub: true,   <-- if you want smoother effect
           },
         }
       );
     }, cardRef);
 
-    return () => ctx.revert(); // cleanup
+    // 👇 Ensures ScrollTrigger recalculates AFTER layout
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+
+    return () => {
+      try {
+        ctx.revert(); // cleanup
+      } catch {}
+    };
   }, [project.title]);
 
   return (
     <article
-      ref={cardRef}
-      className="relative pl-5 sm:pl-6 pb-14"
-      aria-labelledby={`project-${project.id}-title`}
+      className={cn("relative pl-5 sm:pl-6", !isLastProject && "pb-4 sm:pb-14")}
+      aria-labelledby={`project-${project.id ?? project.title}-title`}
     >
       {/* ICON */}
       <div
@@ -76,43 +91,55 @@ const ProjectCard = ({
             {project.title}
           </h3>
           <div className="flex sm:gap-4">
-            {Object.entries(project.Links)?.map(([key, value]) => {
-              const isExternal = value.startsWith("http");
-              return (
-                <Button key={key} asChild variant={"link"} size={"sm"}>
-                  <a
-                    href={value}
-                    target={isExternal ? "_blank" : undefined}
-                    rel={isExternal ? "noopener noreferrer" : undefined}
-                    aria-label={`${key} link for ${project.title}`}
-                    className="flex items-center justify-center text-sm gap-1"
-                  >
-                    {LinksIcon[key]}
-                    {key}
-                  </a>
-                </Button>
-              );
-            })}
+            {project.Links &&
+              Object.entries(project.Links)?.map(([key, value]) => {
+                if (!value) return null;
+                const isExternal = value.startsWith("http");
+                return (
+                  <Button key={key} asChild variant={"link"} size={"sm"}>
+                    <a
+                      href={value}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      aria-label={`${key} link for ${project.title}`}
+                      className="flex items-center justify-center text-sm gap-1"
+                    >
+                      {LinksIcon[key] ?? <Link className="w-4" />}
+                      {key}
+                    </a>
+                  </Button>
+                );
+              })}
           </div>
         </div>
 
         {/* PROJECT DESCRIPTION */}
         <p className="text-sm">{project.description}</p>
 
-        <div className="projectCard flex max-md:flex-col flex-row gap-3">
+        <div ref={cardRef} className="flex max-md:flex-col flex-row gap-3">
           {/* IMAGE */}
           <div className="relative w-full group max-h-60 p-1 aspect-video border rounded-md shadow-md overflow-hidden">
             {/* Image */}
-            <Image
-              src={project.images[0]}
-              width={440}
-              height={340}
-              alt={`Screenshot of ${project.title}`}
-              className="w-full h-full object-cover rounded-md"
-            />
+            {project.images?.length ? (
+              <Image
+                src={project.images[0]}
+                width={440}
+                height={340}
+                alt={`Screenshot of ${project.title}`}
+                className="w-full h-full object-cover rounded-md"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                <ImageIcon className="size-15 text-muted-foreground" />
+              </div>
+            )}
 
             {/* Overlay on hover */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md" />
+            {project.images?.length ? (
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md" />
+            ) : (
+              <></>
+            )}
 
             {/* Link icon */}
             <a
@@ -131,14 +158,15 @@ const ProjectCard = ({
               <p className="font-semibold text-sm">Key Features :</p>
 
               <ul className="text-[13px] space-y-1 ">
-                {project["Key Features"]?.map((feature, index) => {
-                  return (
-                    <li key={index} className="flex gap-3 items-center">
-                      <div className="w-1.5 h-1.5 bg-border rounded-full shrink-0" />
-                      <p>{feature}</p>
-                    </li>
-                  );
-                })}
+                {Array.isArray(project["Key Features"]) &&
+                  project["Key Features"]?.map((feature, index) => {
+                    return (
+                      <li key={index} className="flex gap-3 items-center">
+                        <div className="w-1.5 h-1.5 bg-border rounded-full shrink-0" />
+                        <p>{feature}</p>
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
 

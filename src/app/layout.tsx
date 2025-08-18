@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
         className={`${fontMono.variable} ${fontSans.variable} ${fontMonomaniac.variable} ${fontPlaywrite.variable} relative`}
       >

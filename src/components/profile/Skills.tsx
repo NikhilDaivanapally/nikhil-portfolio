@@ -89,7 +89,7 @@ const Skills = () => {
     <section
       id="skills"
       aria-labelledby="skills-heading"
-      className="mt-14 sm:mt-24 font-mono"
+      className="pt-18 sm:pt-24 font-mono"
     >
       <h2 id="skills-heading" className="font-mono font-semibold mb-8 text-2xl">
         Skills

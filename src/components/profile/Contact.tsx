@@ -7,7 +7,7 @@ const Contact = () => {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="mt-14 sm:mt-24 my-10 font-mono"
+      className="pt-18 sm:pt-24 mb-10 font-mono"
     >
       <h2
         id="contact-heading"

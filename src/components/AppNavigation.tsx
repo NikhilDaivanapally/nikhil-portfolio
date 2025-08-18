@@ -9,8 +9,9 @@ import ToggleTheme from "./ToggleTheme";
 import MobileNav from "./MobileNav";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const sections = MAIN_NAV?.map(({ id }) => id);
 const AppNavigation = () => {
@@ -25,8 +26,8 @@ const AppNavigation = () => {
 
       const trigger = ScrollTrigger.create({
         trigger: el,
-        start: "top 50%",
-        end: "bottom 50%",
+        start: "top 30%",
+        end: "bottom 30%",
         onEnter: () => {
           setActive((prev) => (prev !== id ? id : prev));
         },

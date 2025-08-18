@@ -6,7 +6,7 @@ const Projects = () => {
     <section
       id="projects"
       aria-labelledby="projects-heading"
-      className="min-h-50 mt-14 sm:mt-24 font-mono"
+      className="min-h-50 pt-18 sm:pt-24 font-mono"
     >
       {/* Section Heading */}
       <h2

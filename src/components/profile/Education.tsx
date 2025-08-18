@@ -5,7 +5,7 @@ const Education = () => {
     <section
       id="education"
       aria-labelledby="education-heading"
-      className="mt-14 sm:mt-24 font-mono"
+      className="pt-18 sm:pt-24 font-mono"
     >
       <h2
         id="education-heading"

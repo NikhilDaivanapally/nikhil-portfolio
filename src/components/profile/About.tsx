@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Download, Mars } from "lucide-react";
+import { Download, Mars, Image as ImageIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { ABOUT_INFO, SOCIALS } from "@/data/about";
 import { USER } from "@/data/user";
@@ -89,20 +89,24 @@ const About = () => {
       </div>
       {/* right part */}
       <div className="flex h-fit justify-center">
-        <div className="relative w-32 h-32 sm:size-36 md:size-40 lg:size-48 xl:size-52">
-          <Image
-            src={USER.avatar}
-            alt="profile picture"
-            fill
-            sizes="
-                (max-width: 640px) 8rem,
-                (max-width: 768px) 9rem,
-                (max-width: 1024px) 10rem,
-                (max-width: 1280px) 12rem,
-                13rem"
-            className="rounded-full shadow-md object-cover"
-            priority
-          />
+        <div className="relative w-32 h-32 rounded-full sm:size-36 md:size-40 lg:size-48 xl:size-52 shadow-md">
+          {USER.avatar ? (
+            <Image
+              src={USER.avatar}
+              alt="profile picture"
+              fill
+              sizes="
+                  (max-width: 640px) 8rem,
+                  (max-width: 768px) 9rem,
+                  (max-width: 1024px) 10rem,
+                  (max-width: 1280px) 12rem,
+                  13rem"
+              className="rounded-full object-cover"
+              priority
+            />
+          ) : (
+            <ImageIcon className="size-8 sm:size-12 absolute top-1/2 left-1/2 -translate-1/2 text-muted-foreground" />
+          )}
           <div className="w-4 h-4 rounded-full absolute sm:top-5 right-5 bg-green-500 animate-ping"></div>
           <div className="w-4 h-4 rounded-full absolute sm:top-5 right-5 bg-green-500"></div>
         </div>
