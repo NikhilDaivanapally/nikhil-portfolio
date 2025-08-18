@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import type { NavItem } from "@/types/nav";
 import Link from "next/link";
-import React from "react";
+import React, { useCallback } from "react";
 import { useRouter } from "next/navigation";
 const DesktopNav = ({
   items,
@@ -13,28 +13,29 @@ const DesktopNav = ({
   activeId: string;
 }) => {
   const router = useRouter();
-  const handleClick = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    href: string
-  ) => {
-    // About → scroll to top
-    if (href === "/") {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
-    // Section anchors → smooth scroll
-    if (href.startsWith("#")) {
-      e.preventDefault();
-      const el = document.querySelector(href);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
+      // About → scroll to top
+      if (href === "/") {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        router.push(`/`);
+        return;
       }
-      router.push(`/${href}`);
-    }
-    // else, Next.js will handle normal route navigation
-  };
+
+      // Section anchors → smooth scroll
+      if (href.startsWith("#")) {
+        e.preventDefault();
+        const el = document.querySelector(href);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+        router.push(`/${href}`);
+      }
+      // else, Next.js will handle normal route navigation
+    },
+    [router]
+  );
 
   return (
     <nav className="max-sm:hidden flex items-center gap-4">

@@ -9,10 +9,8 @@ import {
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { motion } from "motion/react";
-// import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/types/nav";
-import { gsap } from "gsap";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -27,47 +25,31 @@ const MobileNav = ({
 }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const handleNavClick = useCallback(
-    (id: string) => {
-      if (!id) return; // prevent accidental call
-      gsap.to(window, {
-        duration: 0.5,
-        scrollTo: {
-          y: `#${id}`,
-          offsetY: parseInt(`${id == "about" ? 88 : 20}`),
-        },
-        ease: "power2.inOut",
-        onComplete: () => setOpen(false),
-      });
-      router.push(id === "about" ? `/` : `/#${id}`, { scroll: false });
-    },
-    [gsap]
-  );
 
-  const handleClick = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    href: string
-  ) => {
-    // About → scroll to top
-    if (href === "/") {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      setOpen(false);
-      return;
-    }
-
-    // Section anchors → smooth scroll
-    if (href.startsWith("#")) {
-      e.preventDefault();
-      const el = document.querySelector(href);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, href: string) => {
+      // About -> scroll to top
+      if (href === "/") {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        router.push(`/`);
+        setOpen(false);
+        return;
       }
-      setOpen(false);
-    }
-
-    // else, Next.js will handle normal route navigation
-  };
+      // Section anchors -> smooth scroll
+      if (href.startsWith("#")) {
+        e.preventDefault();
+        const el = document.querySelector(href);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+        router.push(`/${href}`);
+        setOpen(false);
+      }
+      // else, Next.js will handle normal route navigation
+    },
+    [router, setOpen]
+  );
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -104,20 +86,6 @@ const MobileNav = ({
       >
         {items.map((link) => (
           <DropdownMenuItem key={link.id} asChild>
-            {/* <Button
-              size={"sm"}
-              variant={"ghost"}
-              onClick={() => {
-                handleNavClick(link.id);
-              }}
-              className={cn(
-                "font-mono w-full justify-start cursor-pointer text-sm font-medium text-muted-foreground transition-all duration-300",
-                link.id === activeId && "text-foreground"
-              )}
-            >
-              {link.title}
-            </Button> */}
-
             <Link
               href={link.href}
               className={cn(
