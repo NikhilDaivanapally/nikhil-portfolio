@@ -8,5 +8,5 @@ export const USER = {
   title: "Frontend Developer",
   about: "Hello, Iam Nikhil - a Frontedn Developer",
   avatar: "/profile.jpg",
-  ogImage: "/og-image_1200x437.webp",
+  ogImage: "/og-image_1200x532.png",
 };
