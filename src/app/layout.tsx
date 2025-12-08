@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { fontMono, fontMonomaniac, fontPlaywrite, fontSans } from "@/lib/fonts";
+import {Analytics} from '@vercel/analytics/react';
 import { SITE_INFO } from "@/config/site";
 import { USER } from "@/data/user";
 
@@ -42,6 +43,7 @@ export default function RootLayout({
         className={`${fontMono.variable} ${fontSans.variable} ${fontMonomaniac.variable} ${fontPlaywrite.variable} relative`}
       >
         {children}
+        <Analytics/>
       </body>
     </html>
   );
